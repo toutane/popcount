@@ -1,6 +1,8 @@
+// This algorithm counts bits by shifting its arguments through 64 bit
+// positions, testing the rightmost bit each time.
 package algo
 
-func PopCount3(x uint64) int {
+func Shift(x uint64) int {
 	var res int
 	input := x
 	for i := 0; i < 64; i++ {

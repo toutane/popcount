@@ -28,7 +28,7 @@ func main() {
 			str := fmt.Sprint(err)
 			strColored := fmt.Sprint(string(colorRed), strings.TrimPrefix(str, "strconv.Atoi: parsing "), string(colorReset)) + "\n"
 			if i == 0 && len(args) > 2 { // Print algorithm sentence if there is others command-line arguments.
-				fmt.Printf("\nYou choose the algorithm %v:\n\n", choice)
+				fmt.Printf("\nYou choose algorithm %v:\n\n", choice)
 			}
 			if i == 0 && len(args) == 2 { // Add new line if there is only on command-line argument (wrong).
 				strColored = "\n" + strColored
@@ -38,17 +38,17 @@ func main() {
 		}
 		arg = fmt.Sprint(string(colorGreen), arg, string(colorReset))
 		if i == 0 { // Make algorithm sentence  appears just once.
-			fmt.Printf("\nYou choose the algorithm %v:\n\n", choice)
+			fmt.Printf("\nYou choose algorithm %v:\n\n", choice)
 		}
 		switch choice {
 		case 1:
-			res := fmt.Sprint(string(colorGreen), algo.PopCount1(uint64(num)), string(colorReset))
+			res := fmt.Sprint(string(colorGreen), algo.Sum(uint64(num)), string(colorReset))
 			fmt.Printf("%v \t set bits in %v (%b)\n", res, arg, num)
 		case 2:
-			res := fmt.Sprint(string(colorGreen), algo.PopCount2(uint64(num)), string(colorReset))
+			res := fmt.Sprint(string(colorGreen), algo.Loop(uint64(num)), string(colorReset))
 			fmt.Printf("%v \t set bits in %v (%b)\n", res, arg, num)
 		case 3:
-			res := fmt.Sprint(string(colorGreen), algo.PopCount3(uint64(num)), string(colorReset))
+			res := fmt.Sprint(string(colorGreen), algo.Shift(uint64(num)), string(colorReset))
 			fmt.Printf("%v \t set bits in %v (%b)\n", res, arg, num)
 		default:
 			stop()

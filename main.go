@@ -56,7 +56,7 @@ func main() {
 	}
 }
 
-// Stop function stop the program if the algotithm exeeds overpath 3.
+// Stop function stop the program if the algotithm exeeds 3.
 func stop() {
 	fmt.Println(string(colorRed), "\nPlease chose a number between 1 and 3 for algorithm", string(colorReset))
 	os.Exit(0)

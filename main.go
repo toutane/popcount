@@ -3,6 +3,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"popcount/algo"
@@ -20,6 +21,25 @@ var max, maxB int
 
 func main() {
 	args := os.Args[1:]
+	if len(args) == 0 {
+		input := bufio.NewScanner(os.Stdin)
+		for input.Scan() {
+			inputs := strings.Split(input.Text(), " ")
+			if len(inputs) < 2 {
+				stop()
+			}
+			choice, _ := strconv.Atoi(inputs[0])
+			if choice > 3 || choice == 0 {
+				stop()
+			}
+			for i, arg := range inputs[1:] {
+				num, _ := strconv.Atoi(arg)
+				str := fmt.Sprintf("(%b)", num)
+				max, maxB = len(str), num
+				fmt.Print(countBits(i, choice, arg, inputs))
+			}
+		}
+	}
 	for _, arg := range args[1:] { // Set the number with the most bits (max) and the one with the most digits in base 10. (maxB)
 		num, _ := strconv.Atoi(arg)
 		str := fmt.Sprintf("(%b)", num)
@@ -35,36 +55,43 @@ func main() {
 		stop()
 	}
 	for i, arg := range args[1:] {
-		num, err := strconv.Atoi(arg)
-		if err != nil {
-			str := fmt.Sprint(err)
-			strColored := "  " + fmt.Sprint(string(colorRed), strings.TrimPrefix(str, "strconv.Atoi: parsing "), string(colorReset)) + "\n"
-			if i == 0 && len(args) > 2 { // Print algorithm sentence if there are other command-line arguments.
-				fmt.Printf("\nYou choose algorithm %v:\n\n", choice)
-			}
-			if i == 0 && len(args) == 2 { // Add new line if there is only one command-line argument (but badly formatted).
-				strColored = "\n" + strColored
-			}
-			fmt.Fprintf(os.Stderr, strColored)
-			continue // Go to next arguments.
-		}
-		if i == 0 { // Make algorithm sentence  appears just once.
+		fmt.Print(countBits(i, choice, arg, args))
+	}
+}
+
+// CountBits count set bits for each input.
+func countBits(i, choice int, arg string, args []string) string {
+	num, err := strconv.Atoi(arg)
+	if err != nil {
+		str := fmt.Sprint(err)
+		strColored := "  " + fmt.Sprint(string(colorRed), strings.TrimPrefix(str, "strconv.Atoi: parsing "), string(colorReset)) + "\n"
+		if i == 0 && len(args) > 2 { // Print algorithm sentence if there are other command-line arguments.
 			fmt.Printf("\nYou choose algorithm %v:\n\n", choice)
 		}
-		switch choice {
-		case 1:
-			res := fmt.Sprint(string(colorGreen), algo.Sum(uint64(num)), string(colorReset))
-			fmt.Print(formatOutput(res, num))
-		case 2:
-			res := fmt.Sprint(string(colorGreen), algo.Loop(uint64(num)), string(colorReset))
-			fmt.Print(formatOutput(res, num))
-		case 3:
-			res := fmt.Sprint(string(colorGreen), algo.Shift(uint64(num)), string(colorReset))
-			fmt.Print(formatOutput(res, num))
-		default:
-			stop()
+		if i == 0 && len(args) == 2 { // Add new line if there is only one command-line argument (but badly formatted).
+			strColored = "\n" + strColored
 		}
+		fmt.Fprintf(os.Stderr, strColored)
+		return " "
 	}
+	if i == 0 { // Make algorithm sentence  appears just once.
+		fmt.Printf("\nYou choose algorithm %v:\n\n", choice)
+	}
+	switch choice {
+	case 1:
+		res := fmt.Sprint(string(colorGreen), algo.Sum(uint64(num)), string(colorReset))
+		return formatOutput(res, num)
+	case 2:
+		res := fmt.Sprint(string(colorGreen), algo.Loop(uint64(num)), string(colorReset))
+		return formatOutput(res, num)
+	case 3:
+		res := fmt.Sprint(string(colorGreen), algo.Shift(uint64(num)), string(colorReset))
+		return formatOutput(res, num)
+	default:
+		stop()
+		return " "
+	}
+
 }
 
 // CountDig returns the number of digits if a integer.

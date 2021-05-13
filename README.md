@@ -6,8 +6,7 @@ count.
 This program let you choose between three different algorithms. 
 
 <div align="center">
-  4         <img width="500"
-src="https://github.com/toutane/popcount/blob/main/screenshot.png"
-alt="popcount-terminal">
-  3         <br>
-  2 </div>
+ <br>
+  <img width="700" src="https://github.com/toutane/popcount/blob/main/screenshot.png" alt="popcount-terminal">
+ <br>
+</div>
